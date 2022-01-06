@@ -1,10 +1,14 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,7 +29,21 @@ public class Emprunt {
 	private LocalDate dateFin;
 
 	@Column(name = "ID_CLIENT")
+	// @ManyToOne
+	// @JoinColumn(name = "ID")
 	private Integer idClient;
+
+	@ManyToMany
+	@JoinTable(name = "COMPO", joinColumns = @JoinColumn(name = "ID_EMP", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_LIV", referencedColumnName = "ID"))
+	private Set<Livre> livres;
+
+	public Set<Livre> getLivres() {
+		return livres;
+	}
+
+	public void setLivres(Set<Livre> livres) {
+		this.livres = livres;
+	}
 
 	public Integer getId() {
 		return id;

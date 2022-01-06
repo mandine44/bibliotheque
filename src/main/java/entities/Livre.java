@@ -1,8 +1,11 @@
 package entities;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -10,6 +13,7 @@ import javax.persistence.Table;
 public class Livre {
 
 	@Id
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Integer id;
 
@@ -18,6 +22,9 @@ public class Livre {
 
 	@Column(name = "AUTEUR")
 	private String auteur;
+
+	@ManyToMany(mappedBy = "livres")
+	private Set<Emprunt> emprunts;
 
 	public String getTitre() {
 		return titre;
