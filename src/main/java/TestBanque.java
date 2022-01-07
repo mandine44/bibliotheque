@@ -10,6 +10,10 @@ import javax.persistence.Persistence;
 import entities.Adresse;
 import entities.Banque;
 import entities.ClientBq;
+import entities.Compte;
+import entities.LivretA;
+import entities.Operation;
+import entities.Virement;
 
 public class TestBanque {
 
@@ -31,39 +35,48 @@ public class TestBanque {
 		uneAdresse.setCodePostal(44220);
 		uneAdresse.setVille("Coueron");
 
-		/*
-		 * Adresse AutreAdresse = new Adresse(); AutreAdresse.setNumero(16);
-		 * AutreAdresse.setRue("rue Pasteur"); AutreAdresse.setCodePostal(44210);
-		 * AutreAdresse.setVille("Pornic");
-		 */
-
 		Banque uneBanque = new Banque();
-		uneBanque.setNom("Credit Agricolee");
+		uneBanque.setNom("Credit Agricole");
 
 		ClientBq unClient = new ClientBq();
-		unClient.setNom("Hurett");
+		unClient.setNom("Huret");
 		unClient.setPrenom("Amandine");
 		unClient.setAdresse(uneAdresse);
 		unClient.setDateNaissance(LocalDate.of(1980, 1, 20));
 		unClient.setBanque(uneBanque);
 
-		/*
-		 * ClientBq autreClient = new ClientBq(); unClient.setNom("Dumazeau");
-		 * unClient.setPrenom("Lulu"); unClient.setAdresse(AutreAdresse);
-		 * unClient.setDateNaissance(LocalDate.of(2015, 7, 23));
-		 */
-
 		Set<ClientBq> setClients = new HashSet<ClientBq>();
 		setClients.add(unClient);
-		// setClients.add(autreClient);
 
-		// uneBanque.setClients(setClients);
+// Ajout d'un compte de type Livret A sur lequel on fait une operation de type virement
+		Virement unVirement = new Virement();
+		unVirement.setId(15);
+		unVirement.setDate(LocalDate.of(2022, 3, 10));
+		unVirement.setMontant(200);
+		unVirement.setMotif("remboursement resto");
+		unVirement.setBeneficiaire("moi");
 
-		// em.persist(uneAdresse);
-		// em.persist(AutreAdresse);
-		em.persist(unClient);
-		// em.persist(autreClient);
+		Set<Operation> unSetOperations = new HashSet<Operation>();
+		unSetOperations.add(unVirement);
+
+		LivretA unLivretA = new LivretA();
+		unLivretA.setNumero("8772");
+		unLivretA.setSolde(8596);
+		unLivretA.setTaux(3);
+		unLivretA.setSetOperations(unSetOperations);
+
+		// attention valoriser dans les 2 sens pour liaison bidirectionnelle
+		unVirement.setUnCompte(unLivretA);
+
+		Set<Compte> unSetCompte = new HashSet<Compte>();
+		unSetCompte.add(unLivretA);
+
+		unClient.setComptes(unSetCompte);
+
 		em.persist(uneBanque);
+		em.persist(unClient);
+		em.persist(unVirement);
+		em.persist(unLivretA);
 
 		tx.commit();
 		em.close();

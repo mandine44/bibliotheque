@@ -1,6 +1,6 @@
 package entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,7 +15,7 @@ public abstract class Operation {
 
 	@Id
 	private int id;
-	private LocalDateTime date;
+	private LocalDate date;
 	private double montant;
 	private String motif;
 
@@ -39,12 +39,12 @@ public abstract class Operation {
 		this.id = id;
 	}
 
-	public LocalDateTime getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
-		this.date = date;
+	public void setDate(LocalDate localDate) {
+		this.date = localDate;
 	}
 
 	public double getMontant() {

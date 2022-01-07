@@ -3,8 +3,11 @@ package entities;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -12,22 +15,27 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
+
 public class ClientBq {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String nom;
 	private String prenom;
+
+	@Column(name = "date_naissance")
 	private LocalDate dateNaissance;
 
 	@Embedded
 	private Adresse adresse;
 
 	@ManyToOne
-	@JoinColumn(name = "nom_banque")
-	private Banque banque;
+	@JoinColumn(name = "banque_id")
+	private Banque uneBanque;
 
 	@ManyToMany
-	@JoinTable(name = "Client_Compte", joinColumns = @JoinColumn(name = "Nom_Client", referencedColumnName = "nom"), inverseJoinColumns = @JoinColumn(name = "Numero_Compte", referencedColumnName = "numero"))
+	@JoinTable(name = "Client_Compte", joinColumns = @JoinColumn(name = "Id_Client", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "Numero_Compte", referencedColumnName = "numero"))
 	private Set<Compte> comptes;
 
 	public Adresse getAdresse() {
@@ -47,11 +55,11 @@ public class ClientBq {
 	}
 
 	public Banque getBanque() {
-		return banque;
+		return uneBanque;
 	}
 
 	public void setBanque(Banque banque) {
-		this.banque = banque;
+		this.uneBanque = banque;
 	}
 
 	public String getNom() {

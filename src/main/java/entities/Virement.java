@@ -3,7 +3,7 @@ package entities;
 import javax.persistence.Entity;
 
 @Entity
-public class Virement {
+public class Virement extends Operation {
 
 	private String beneficiaire;
 

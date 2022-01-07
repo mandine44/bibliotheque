@@ -23,6 +23,9 @@
 		<class>entities.Compte</class>
 		<class>entities.Operation</class>
 		<class>entities.ClientBq</class>
+		<class>entities.LivretA</class>
+		<class>entities.Virement</class>
+		<class>entities.AssuranceVie</class>
 		<properties>
 			<!-- desactiver l'autodetection des classes de type @Entity -->
 			<property name="hibernate.archive.autodetection" value="" />
